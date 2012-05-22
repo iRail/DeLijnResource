@@ -8,41 +8,51 @@
  * @author Maarten Cautreels <maarten@flatturtle.com>
  */
 
-include_once('tools.php');
+include_once('stationDao.php');
  
 class DeLijnStations extends AReader{
 
+	public function __construct($package, $resource, $RESTparameters) {
+		parent::__construct($package, $resource, $RESTparameters);
+		
+		// Initialize possible params
+		$this->longitude = null;
+		$this->latitude = null;
+		$this->offset = null;
+		$this->rowcount = null;
+	}
+
     public static function getParameters(){
-		return array("municipal" => "The region to request the De Lijn stops from");
+		return array("longitude" => "Longitude"
+						,"latitude" => "Latitude"
+						,"offset" => "Offeset"
+						,"rowcount" => "Rowcount");
     }
 
     public static function getRequiredParameters(){
-		return array("municipal");
+		return array();
     }
 
     public function setParameter($key,$val){
-        if($key == "municipal"){
-            $this->municipal = strtoupper($val);
-        }
+        if ($key == "longitude"){
+			$this->longitude = $val;
+		} else if ($key == "latitude"){
+			$this->latitude = $val;
+		} else if ($key == "offset"){
+			$this->offset = $val;
+		} else if ($key == "rowcount"){
+			$this->rowcount = $val;
+		}
     }
 
     public function read(){
-		date_default_timezone_set("Europe/Brussels");
-        $arguments = array(":municipal" => urldecode($this->municipal));
-        $result = R::getAll("select * from DL_Stops where STOPPARENTMUNICIPAL like :municipal or STOPMUNICIPAL like :municipal and STOPISPUBLIC = 'true'",$arguments);
+		$stationDao = new StationDao();
 		
-		$results = array();
-        foreach($result as &$row){
-            $station = array();
-            $station["id"] = $row["STOPIDENTIFIER"];
-            $station["name"] = $row["STOPDESCRPTION"];
-            $station["longitude"] = $row["STOPLONGITUDE"];
-            $station["latitude"] = $row["STOPLATITUDE"];
-            
-            $results[] = $station;
-        }
-        date_default_timezone_set("UTC");
-        return $results;
+		if($this->longitude != null && $this->latitude != null) {
+			return $stationDao->getClosestStations($this->longitude, $this->latitude);
+		}
+	
+		return $stationDao->getAllStations($this->offset, $this->rowcount);
     }
 
     public static function getDoc(){

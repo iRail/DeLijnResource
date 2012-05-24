@@ -13,11 +13,18 @@ include_once('tools.php');
 class StationDao {
 	/**
 	  * Query to get all stations ordered alphabetically
-	  * @param string latitude
-	  * @param string longitude
 	  */
 	private $GET_ALL_STATIONS_QUERY = "SELECT stop_id, stop_name, stop_lat, stop_lon 
 								FROM dlgtfs_stops
+								ORDER BY stop_name ASC";
+								
+	/**
+	  * Query to get all stations with a certain name
+	  * @param string name
+	  */
+	private $GET_STATIONS_BY_NAME_QUERY = "SELECT stop_id, stop_name, stop_lat, stop_lon 
+								FROM dlgtfs_stops
+								WHERE lower(stop_name) LIKE :name
 								ORDER BY stop_name ASC";
 
 	/**
@@ -49,15 +56,44 @@ class StationDao {
 	  *
 	  * @param int $offset Number of the first row to return (Optional)
 	  * @param int $rowcount Number of rows to return (Optional)
-	  * @return array A List of Stations in the given municipal
+	  * @return array A List of all Stations
 	  */
-	public function getAllStations($offset=null, $rowcount=null) {
+	public function getAllStations($offset=0, $rowcount=1024) {
 		$arguments = array(":offset" => intval(urldecode($offset)), ":rowcount" => intval(urldecode($rowcount)));
 		$query = $this->GET_ALL_STATIONS_QUERY;
 		
 		if($offset != null and $rowcount != null) {
 			$query .= $this->LIMIT_QUERY;
 		}
+
+		$result = R::getAll($query, $arguments);
+		
+		$results = array();
+		foreach($result as &$row){
+			$station = array();
+			$station["id"] = $row["stop_id"];
+			$station["name"] = $row["stop_name"];
+			$station["longitude"] = $row["stop_lat"];
+			$station["latitude"] = $row["stop_lon"];
+			
+			$results[] = $station;
+		}
+		date_default_timezone_set("UTC");
+		return $results;
+	}
+	
+	/**
+	  *
+	  * @param string $name Name or part of the name of a station
+	  * @param int $offset Number of the first row to return (Optional)
+	  * @param int $rowcount Number of rows to return (Optional)
+	  * @return array A List of Stations with given name
+	  */
+	public function getStationsByName($name, $offset=0, $rowcount=1024) {
+		$arguments = array(":name" => urldecode(strtolower('%' . $name . '%')), ":offset" => intval(urldecode($offset)), ":rowcount" => intval(urldecode($rowcount)));
+		$query = $this->GET_STATIONS_BY_NAME_QUERY;
+
+		$query .= $this->LIMIT_QUERY;
 
 		$result = R::getAll($query, $arguments);
 		

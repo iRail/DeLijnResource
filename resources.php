@@ -8,7 +8,7 @@
 
 class DeLijn{
      public static $resources = array (
-	  "Stations"
+	  "Stations", "LiveBoard"
 	  );
 }
 

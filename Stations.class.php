@@ -18,13 +18,15 @@ class DeLijnStations extends AReader{
 		// Initialize possible params
 		$this->longitude = null;
 		$this->latitude = null;
-		$this->offset = null;
-		$this->rowcount = null;
+		$this->name = null;
+		$this->offset = 0;
+		$this->rowcount = 1024;
 	}
 
     public static function getParameters(){
 		return array("longitude" => "Longitude"
 						,"latitude" => "Latitude"
+						,"name" => "Name"
 						,"offset" => "Offeset"
 						,"rowcount" => "Rowcount");
     }
@@ -38,6 +40,8 @@ class DeLijnStations extends AReader{
 			$this->longitude = $val;
 		} else if ($key == "latitude"){
 			$this->latitude = $val;
+		} else if ($key == "name"){
+			$this->name = $val;
 		} else if ($key == "offset"){
 			$this->offset = $val;
 		} else if ($key == "rowcount"){
@@ -50,6 +54,8 @@ class DeLijnStations extends AReader{
 		
 		if($this->longitude != null && $this->latitude != null) {
 			return $stationDao->getClosestStations($this->longitude, $this->latitude);
+		} else if ($this->name != null) {
+			return $stationDao->getStationsByName($this->name, $this->offset, $this->rowcount);
 		}
 	
 		return $stationDao->getAllStations($this->offset, $this->rowcount);

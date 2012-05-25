@@ -8,9 +8,9 @@
  * @author Maarten Cautreels <maarten@flatturtle.com>
  */
 
-include_once('LiveBoardDao.php');
+include_once('LiveboardDao.php');
  
-class DeLijnLiveBoard extends AReader{
+class DeLijnLiveboard extends AReader{
 
 	public function __construct($package, $resource, $RESTparameters) {
 		parent::__construct($package, $resource, $RESTparameters);

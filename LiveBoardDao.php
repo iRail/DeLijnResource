@@ -1,7 +1,5 @@
 <?php
 
-include_once('tools.php');
-
 /**
  * This is a class which will return the information with the latest departures from a certain station
  * 
@@ -10,7 +8,7 @@ include_once('tools.php');
  * @license AGPLv3
  * @author Maarten Cautreels <maarten@flatturtle.com>
  */
-class LiveBoardDao {
+class LiveboardDao {
 	/**
 	  * Query to get all stations ordered alphabetically
 	  * @param int stationId

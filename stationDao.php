@@ -1,7 +1,5 @@
 <?php
 
-include_once('tools.php');
-
 /**
  * This is a class which will return all available Haltes from De Lijn
  * 

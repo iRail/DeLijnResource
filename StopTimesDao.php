@@ -13,7 +13,7 @@ class StopTimesDao {
 	  * Query to get all stations ordered alphabetically
 	  * @param int stationId
 	  */
-	private $GET_DEPARTURES_QUERY = "SELECT DISTINCT route.route_short_name, route.route_long_name, route.route_color, trip.direction_id, times.departure_time_t
+	private $GET_DEPARTURES_QUERY = "SELECT DISTINCT route.route_short_name, route.route_long_name, route.route_color, route.route_text_color, trip.direction_id, times.departure_time_t
 									FROM dlgtfs_stop_times times
 									JOIN dlgtfs_trips trip
 										ON trip.trip_id = times.trip_id
@@ -26,7 +26,7 @@ class StopTimesDao {
 									AND calendar.date <= STR_TO_DATE(CONCAT(:year, '-', :month, '-', :day), '%Y-%m-%d')
 									ORDER BY times.departure_time_t";
 									
-	private $GET_ARRIVALS_QUERY = "SELECT DISTINCT route.route_short_name, route.route_long_name, route.route_color, trip.direction_id, times.arrival_time_t
+	private $GET_ARRIVALS_QUERY = "SELECT DISTINCT route.route_short_name, route.route_long_name, route.route_color, route.route_text_color trip.direction_id, times.arrival_time_t
 									FROM dlgtfs_stop_times times
 									JOIN dlgtfs_trips trip
 										ON trip.trip_id = times.trip_id
@@ -59,9 +59,10 @@ class StopTimesDao {
 		foreach($result as &$row){
 			$departure = array();
 			
-			$departure["route_short_name"] = $row["route_short_name"];
-			$departure["route_long_name"] = $row["route_long_name"];
-			$departure["route_color"] = $row["route_color"];
+			$departure["short_name"] = $row["route_short_name"];
+			$departure["long_name"] = $row["route_long_name"];
+			$departure["color"] = $row["route_color"];
+			$departure["text_color"] = $row["route_text_color"];
 			$departure["direction"] = $row["direction_id"];
 
 			$split = explode(':', $row["departure_time_t"]);
@@ -98,9 +99,10 @@ class StopTimesDao {
 		foreach($result as &$row){
 			$arrival = array();
 			
-			$departure["route_short_name"] = $row["route_short_name"];
-			$departure["route_long_name"] = $row["route_long_name"];
-			$departure["route_color"] = $row["route_color"];
+			$departure["short_name"] = $row["route_short_name"];
+			$departure["long_name"] = $row["route_long_name"];
+			$departure["color"] = $row["route_color"];
+			$departure["text_color"] = $row["route_text_color"];
 			$departure["direction"] = $row["direction_id"];
 
 			$split = explode(':', $row["departure_time_t"]);

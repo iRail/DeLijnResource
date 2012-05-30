@@ -9,6 +9,11 @@
  * @author Maarten Cautreels <maarten@flatturtle.com>
  */
 class StopTimesDao {
+	/*
+	 *	Timezone set to Europe/Brussels
+	 */
+	var $timezone = "Europe/Brussels";
+
 	/**
 	  * Query to get all stations ordered alphabetically
 	  * @param int stationId
@@ -24,7 +29,8 @@ class StopTimesDao {
 									WHERE times.stop_id = :stationid
 									AND times.departure_time_t >= TIME(STR_TO_DATE(CONCAT(:hour, ':', :minute), '%k:%i'))
 									AND calendar.date <= STR_TO_DATE(CONCAT(:year, '-', :month, '-', :day), '%Y-%m-%d')
-									ORDER BY times.departure_time_t";
+									ORDER BY times.departure_time_t
+									LIMIT :offset, :rowcount;";
 									
 	private $GET_ARRIVALS_QUERY = "SELECT DISTINCT route.route_short_name, route.route_long_name, route.route_color, route.route_text_color trip.direction_id, times.arrival_time_t
 									FROM dlgtfs_stop_times times
@@ -37,7 +43,8 @@ class StopTimesDao {
 									WHERE times.stop_id = :stationid
 									AND times.arrival_time_t >= TIME(STR_TO_DATE(CONCAT(:hour, ':', :minute), '%k:%i'))
 									AND calendar.date <= STR_TO_DATE(CONCAT(:year, '-', :month, '-', :day), '%Y-%m-%d')
-									ORDER BY times.arrival_time_t";
+									ORDER BY times.arrival_time_t
+									LIMIT :offset, :rowcount;";
 																
 	/**
 	  *
@@ -49,8 +56,10 @@ class StopTimesDao {
 	  * @param int $minute The Minute (Required)
 	  * @return array A List of Departures for a given station, date and starting from a given time
 	  */
-	public function getDepartures($stationId, $year, $month, $day, $hour, $minute) {	
-		$arguments = array(":stationid" => urldecode($stationId), ":year" => urldecode($year), ":month" => urldecode($month), ":day" => urldecode($day), ":hour" => urldecode($hour), ":minute" => urldecode($minute));
+	public function getDepartures($stationId, $year, $month, $day, $hour, $minute, $offset=0, $rowcount=1024) {	
+		date_default_timezone_set($this->timezone);
+		
+		$arguments = array(":stationid" => urldecode($stationId), ":year" => urldecode($year), ":month" => urldecode($month), ":day" => urldecode($day), ":hour" => urldecode($hour), ":minute" => urldecode($minute), ":offset" => intval(urldecode($offset)), ":rowcount" => intval(urldecode($rowcount)));
 		$query = $this->GET_DEPARTURES_QUERY;
 		
 		$result = R::getAll($query, $arguments);
@@ -89,8 +98,10 @@ class StopTimesDao {
 	  * @param int $minute The Minute (Required)
 	  * @return array A List of Arrivals for a given station, date and starting from a given time
 	  */
-	public function getArrivals($stationId, $year, $month, $day, $hour, $minute) {	
-		$arguments = array(":stationid" => urldecode($stationId), ":year" => urldecode($year), ":month" => urldecode($month), ":day" => urldecode($day), ":hour" => urldecode($hour), ":minute" => urldecode($minute));
+	public function getArrivals($stationId, $year, $month, $day, $hour, $minute, $offset=0, $rowcount=1024) {	
+		date_default_timezone_set($this->timezone);
+		
+		$arguments = array(":stationid" => urldecode($stationId), ":year" => urldecode($year), ":month" => urldecode($month), ":day" => urldecode($day), ":hour" => urldecode($hour), ":minute" => urldecode($minute), ":offset" => intval(urldecode($offset)), ":rowcount" => intval(urldecode($rowcount)));
 		$query = $this->GET_ARRIVALS_QUERY;
 		
 		$result = R::getAll($query, $arguments);

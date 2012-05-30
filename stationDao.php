@@ -44,12 +44,45 @@ class StationDao {
 								ORDER BY distance";
 								
 	/**
+	  * Query to get a station with a given id
+	  * @param int id
+	  */
+	private $GET_STATION_BY_ID = "SELECT stop_id, stop_name, stop_lat, stop_lon 
+											FROM dlgtfs_stops
+											WHERE stop_id = :id;";
+								
+	/**
 	  * Extra query to get all closest station to a given point (lat/long)
 	  * @param int offset
 	  * @param int rowcount
 	  */
 	private $LIMIT_QUERY = " LIMIT :offset , :rowcount";
 
+	/**
+	  * 
+	  * @param int id
+	  * @return array The Station with the given id
+	  */
+	public function getStationById($id) {
+		$arguments = array(":id" => intval(urldecode($id)));
+		$query = $this->GET_STATION_BY_ID;
+		
+		$result = R::getAll($query, $arguments);
+		
+		$results = array();
+		foreach($result as &$row){
+			$station = array();
+			$station["id"] = $row["stop_id"];
+			$station["name"] = $row["stop_name"];
+			$station["latitude"] = $row["stop_lat"];
+			$station["longitude"] = $row["stop_lon"];
+			
+			$results[] = $station;
+		}
+		
+		return $results;
+	}
+	
 	/**
 	  *
 	  * @param int $offset Number of the first row to return (Optional)
@@ -76,7 +109,7 @@ class StationDao {
 			
 			$results[] = $station;
 		}
-		date_default_timezone_set("UTC");
+		
 		return $results;
 	}
 	

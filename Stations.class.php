@@ -8,7 +8,7 @@
  * @author Maarten Cautreels <maarten@flatturtle.com>
  */
 
-include_once('stationDao.php');
+include_once('DeLijnStationDao.php');
  
 class DeLijnStations extends AReader{
 

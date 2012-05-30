@@ -8,12 +8,15 @@
  * @author Maarten Cautreels <maarten@flatturtle.com>
  */
 
-include_once('StopTimesDao.php');
+include_once('DeLijnStopTimesDao.php');
  
 class DeLijnArrivals extends AReader{
 
 	public function __construct($package, $resource, $RESTparameters) {
 		parent::__construct($package, $resource, $RESTparameters);
+		
+		$this->offset = 0;
+		$this->rowcount = 1024;
 	}
 
     public static function getParameters(){

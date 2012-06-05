@@ -18,7 +18,7 @@ class StopTimesDao {
 	  * Query to get all stations ordered alphabetically
 	  * @param int stationId
 	  */
-	private $GET_DEPARTURES_QUERY = "SELECT DISTINCT route.route_short_name, route.route_long_name, route.route_color, route.route_text_color, trip.direction_id, times.departure_time_t
+	private $GET_DEPARTURES_QUERY = "SELECT DISTINCT route.route_short_name, trip.trip_headsign, route.route_color, route.route_text_color, trip.direction_id, times.departure_time_t
 									FROM dlgtfs_stop_times times
 									JOIN dlgtfs_trips trip
 										ON trip.trip_id = times.trip_id
@@ -26,13 +26,15 @@ class StopTimesDao {
 										ON route.route_id = trip.route_id
 									JOIN dlgtfs_calendar_dates calendar
 										ON calendar.service_id = trip.service_id
-									WHERE times.stop_id = :stationid
+									INNER JOIN dlgtfs_stops stop
+										ON stop.stop_name = :stationName
+									WHERE times.stop_id = stop.stop_id
 									AND times.departure_time_t >= TIME(STR_TO_DATE(CONCAT(:hour, ':', :minute), '%k:%i'))
 									AND calendar.date <= STR_TO_DATE(CONCAT(:year, '-', :month, '-', :day), '%Y-%m-%d')
 									ORDER BY times.departure_time_t
 									LIMIT :offset, :rowcount;";
 									
-	private $GET_ARRIVALS_QUERY = "SELECT DISTINCT route.route_short_name, route.route_long_name, route.route_color, route.route_text_color, trip.direction_id, times.arrival_time_t
+	private $GET_ARRIVALS_QUERY = "SELECT DISTINCT route.route_short_name, trip.trip_headsign, route.route_color, route.route_text_color, trip.direction_id, times.arrival_time_t
 									FROM dlgtfs_stop_times times
 									JOIN dlgtfs_trips trip
 										ON trip.trip_id = times.trip_id
@@ -40,7 +42,9 @@ class StopTimesDao {
 										ON route.route_id = trip.route_id
 									JOIN dlgtfs_calendar_dates calendar
 										ON calendar.service_id = trip.service_id
-									WHERE times.stop_id = :stationid
+									INNER JOIN dlgtfs_stops stop
+										ON stop.stop_name = :stationName
+									WHERE times.stop_id = stop.stop_id
 									AND times.arrival_time_t >= TIME(STR_TO_DATE(CONCAT(:hour, ':', :minute), '%k:%i'))
 									AND calendar.date <= STR_TO_DATE(CONCAT(:year, '-', :month, '-', :day), '%Y-%m-%d')
 									ORDER BY times.arrival_time_t
@@ -48,7 +52,7 @@ class StopTimesDao {
 																
 	/**
 	  *
-	  * @param int $stationId The Unique identifier of a station (Required)
+	  * @param int $stationName The Name of a station (Required)
 	  * @param int $year The Year (Required)
 	  * @param int $month The Month (Required)
 	  * @param int $day The Day (Required)
@@ -56,11 +60,12 @@ class StopTimesDao {
 	  * @param int $minute The Minute (Required)
 	  * @return array A List of Departures for a given station, date and starting from a given time
 	  */
-	public function getDepartures($stationId, $year, $month, $day, $hour, $minute, $offset=0, $rowcount=1024) {	
+	public function getDepartures($stationName, $year, $month, $day, $hour, $minute, $offset=0, $rowcount=1024) {	
 		date_default_timezone_set($this->timezone);
 		
-		$arguments = array(":stationid" => urldecode($stationId), ":year" => urldecode($year), ":month" => urldecode($month), ":day" => urldecode($day), ":hour" => urldecode($hour), ":minute" => urldecode($minute), ":offset" => intval(urldecode($offset)), ":rowcount" => intval(urldecode($rowcount)));
+		$arguments = array(":stationName" => urldecode($stationName), ":year" => urldecode($year), ":month" => urldecode($month), ":day" => urldecode($day), ":hour" => urldecode($hour), ":minute" => urldecode($minute), ":offset" => intval(urldecode($offset)), ":rowcount" => intval(urldecode($rowcount)));
 		$query = $this->GET_DEPARTURES_QUERY;
+		
 		
 		$result = R::getAll($query, $arguments);
 		
@@ -69,7 +74,7 @@ class StopTimesDao {
 			$departure = array();
 			
 			$departure["short_name"] = $row["route_short_name"];
-			$departure["long_name"] = $row["route_long_name"];
+			$departure["long_name"] = $row["trip_headsign"];
 			$departure["color"] = $row["route_color"];
 			$departure["text_color"] = $row["route_text_color"];
 			$departure["direction"] = $row["direction_id"];
@@ -98,10 +103,10 @@ class StopTimesDao {
 	  * @param int $minute The Minute (Required)
 	  * @return array A List of Arrivals for a given station, date and starting from a given time
 	  */
-	public function getArrivals($stationId, $year, $month, $day, $hour, $minute, $offset=0, $rowcount=1024) {	
+	public function getArrivals($stationName, $year, $month, $day, $hour, $minute, $offset=0, $rowcount=1024) {	
 		date_default_timezone_set($this->timezone);
 		
-		$arguments = array(":stationid" => urldecode($stationId), ":year" => urldecode($year), ":month" => urldecode($month), ":day" => urldecode($day), ":hour" => urldecode($hour), ":minute" => urldecode($minute), ":offset" => intval(urldecode($offset)), ":rowcount" => intval(urldecode($rowcount)));
+		$arguments = array(":stationName" => urldecode($stationName), ":year" => urldecode($year), ":month" => urldecode($month), ":day" => urldecode($day), ":hour" => urldecode($hour), ":minute" => urldecode($minute), ":offset" => intval(urldecode($offset)), ":rowcount" => intval(urldecode($rowcount)));
 		$query = $this->GET_ARRIVALS_QUERY;
 		
 		$result = R::getAll($query, $arguments);
@@ -111,7 +116,7 @@ class StopTimesDao {
 			$arrival = array();
 			
 			$arrival["short_name"] = $row["route_short_name"];
-			$arrival["long_name"] = $row["route_long_name"];
+			$arrival["long_name"] = $row["trip_headsign"];
 			$arrival["color"] = $row["route_color"];
 			$arrival["text_color"] = $row["route_text_color"];
 			$arrival["direction"] = $row["direction_id"];

@@ -56,8 +56,6 @@ class DeLijnDepartures extends AReader{
     public function read(){
         $stopTimesDao = new StopTimesDao();
 		
-		echo is_numeric($this->stationidentifier);
-		
 		if(is_numeric($this->stationidentifier)) {
 			return $stopTimesDao->getDeparturesByID($this->stationidentifier, $this->year, $this->month, $this->day, $this->hour, $this->minute, $this->offset, $this->rowcount);
 		} else {

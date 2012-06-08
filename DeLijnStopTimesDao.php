@@ -27,6 +27,10 @@ class StopTimesDao {
 									WHERE times.stop_id = stop.stop_id
 									AND times.departure_time_t >= TIME(STR_TO_DATE(CONCAT(:hour, ':', :minute), '%k:%i'))
 									AND calendar.date <= STR_TO_DATE(CONCAT(:year, '-', :month, '-', :day), '%Y-%m-%d')
+									AND (SELECT count(time.stop_id) 
+										FROM  dlgtfs_stop_times time
+										WHERE time.trip_id = trip.trip_id
+										AND time.arrival_time_t > times.departure_time_t) > 0
 									ORDER BY times.departure_time_t
 									LIMIT :offset, :rowcount;";
 									
@@ -41,6 +45,10 @@ class StopTimesDao {
 									WHERE times.stop_id = :stationId
 									AND times.departure_time_t >= TIME(STR_TO_DATE(CONCAT(:hour, ':', :minute), '%k:%i'))
 									AND calendar.date <= STR_TO_DATE(CONCAT(:year, '-', :month, '-', :day), '%Y-%m-%d')
+									AND (SELECT count(time.stop_id) 
+										FROM  dlgtfs_stop_times time
+										WHERE time.trip_id = trip.trip_id
+										AND time.arrival_time_t > times.departure_time_t) > 0
 									ORDER BY times.departure_time_t
 									LIMIT :offset, :rowcount;";
 									
@@ -57,6 +65,10 @@ class StopTimesDao {
 									WHERE times.stop_id = stop.stop_id
 									AND times.arrival_time_t >= TIME(STR_TO_DATE(CONCAT(:hour, ':', :minute), '%k:%i'))
 									AND calendar.date <= STR_TO_DATE(CONCAT(:year, '-', :month, '-', :day), '%Y-%m-%d')
+									AND (SELECT count(time.stop_id) 
+										FROM  dlgtfs_stop_times time
+										WHERE time.trip_id = trip.trip_id
+										AND time.arrival_time_t > times.departure_time_t) > 0
 									ORDER BY times.arrival_time_t
 									LIMIT :offset, :rowcount;";
 									
@@ -71,6 +83,10 @@ class StopTimesDao {
 									WHERE times.stop_id = :stationId
 									AND times.arrival_time_t >= TIME(STR_TO_DATE(CONCAT(:hour, ':', :minute), '%k:%i'))
 									AND calendar.date <= STR_TO_DATE(CONCAT(:year, '-', :month, '-', :day), '%Y-%m-%d')
+									AND (SELECT count(time.stop_id) 
+										FROM  dlgtfs_stop_times time
+										WHERE time.trip_id = trip.trip_id
+										AND time.arrival_time_t > times.departure_time_t) > 0
 									ORDER BY times.arrival_time_t
 									LIMIT :offset, :rowcount;";
 																

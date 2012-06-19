@@ -8,7 +8,15 @@
  * @license AGPLv3
  * @author Maarten Cautreels <maarten@flatturtle.com>
  */
+
+include_once('custom/packages/DeLijn/Config.class.php');
+ 
 class StationDao {
+	
+	public function __construct() {
+		R::setup(DeLijnConfig::$DB, DeLijnConfig::$DB_USER, DeLijnConfig::$DB_PASSWORD);
+	}
+
 	/**
 	  * Query to get all stations ordered alphabetically
 	  */

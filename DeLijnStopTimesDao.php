@@ -22,7 +22,7 @@ class StopTimesDao {
      */
     var $timezone = "Europe/Brussels";
 
-    private $GET_DEPARTURES_BY_NAME_QUERY = "SELECT DISTINCT route.route_short_name, route.type, trip.trip_headsign, route.route_color, route.route_text_color, trip.direction_id, times.departure_time_t
+    private $GET_DEPARTURES_BY_NAME_QUERY = "SELECT DISTINCT route.route_short_name, route.route_type, trip.trip_headsign, route.route_color, route.route_text_color, trip.direction_id, times.departure_time_t
 									FROM dlgtfs_stop_times times
 									JOIN dlgtfs_trips trip
 										ON trip.trip_id = times.trip_id
@@ -42,7 +42,7 @@ class StopTimesDao {
 									ORDER BY times.departure_time_t
 									LIMIT :offset, :rowcount;";
 									
-    private $GET_DEPARTURES_BY_ID_QUERY = "SELECT DISTINCT route.route_short_name, route.type, trip.trip_headsign, route.route_color, route.route_text_color, trip.direction_id, times.departure_time_t
+    private $GET_DEPARTURES_BY_ID_QUERY = "SELECT DISTINCT route.route_short_name, route.route_type, trip.trip_headsign, route.route_color, route.route_text_color, trip.direction_id, times.departure_time_t
 									FROM dlgtfs_stop_times times
 									JOIN dlgtfs_trips trip
 										ON trip.trip_id = times.trip_id
@@ -60,7 +60,7 @@ class StopTimesDao {
 									ORDER BY times.departure_time_t
 									LIMIT :offset, :rowcount;";
 									
-    private $GET_ARRIVALS_BY_NAME_QUERY = "SELECT DISTINCT route.route_short_name, route.type, trip.trip_headsign, route.route_color, route.route_text_color, trip.direction_id, times.arrival_time_t
+    private $GET_ARRIVALS_BY_NAME_QUERY = "SELECT DISTINCT route.route_short_name, route.route_type, trip.trip_headsign, route.route_color, route.route_text_color, trip.direction_id, times.arrival_time_t
 									FROM dlgtfs_stop_times times
 									JOIN dlgtfs_trips trip
 										ON trip.trip_id = times.trip_id
@@ -80,7 +80,7 @@ class StopTimesDao {
 									ORDER BY times.arrival_time_t
 									LIMIT :offset, :rowcount;";
 									
-    private $GET_ARRIVALS_BY_ID_QUERY = "SELECT DISTINCT route.route_short_name, route.type, trip.trip_headsign, route.route_color, route.route_text_color, trip.direction_id, times.arrival_time_t
+    private $GET_ARRIVALS_BY_ID_QUERY = "SELECT DISTINCT route.route_short_name, route.route_type, trip.trip_headsign, route.route_color, route.route_text_color, trip.direction_id, times.arrival_time_t
 									FROM dlgtfs_stop_times times
 									JOIN dlgtfs_trips trip
 										ON trip.trip_id = times.trip_id

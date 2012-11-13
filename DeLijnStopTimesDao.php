@@ -187,7 +187,7 @@ class StopTimesDao {
             $stoptime = array();
 			
             $stoptime["short_name"] = $row["route_short_name"];
-            $stoptime["type"] = $row["route.type"];
+            $stoptime["type"] = $row["route_type"];
             $stoptime["long_name"] = $row["trip_headsign"];
             $stoptime["color"] = $row["route_color"];
             $stoptime["text_color"] = $row["route_text_color"];

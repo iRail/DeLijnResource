@@ -58,6 +58,14 @@ class StationDao {
 	private $GET_STATION_BY_ID = "SELECT stop_id, stop_code, stop_name, stop_lat, stop_lon 
 											FROM dlgtfs_stops
 											WHERE stop_id = :id;";
+											
+	/**
+	  * Query to get a station with a given station code
+	  * @param int code
+	  */
+	private $GET_STATION_BY_CODE = "SELECT stop_id, stop_code, stop_name, stop_lat, stop_lon 
+											FROM dlgtfs_stops
+											WHERE stop_code = :code;";
 								
 	/**
 	  * Extra query to get all closest station to a given point (lat/long)
@@ -74,6 +82,32 @@ class StationDao {
 	public function getStationById($id) {
 		$arguments = array(":id" => intval(urldecode($id)));
 		$query = $this->GET_STATION_BY_ID;
+		
+		$result = R::getAll($query, $arguments);
+		
+		$results = array();
+		foreach($result as &$row){
+			$station = array();
+			$station["id"] = $row["stop_id"];
+			$station["code"] = $row["stop_code"];
+			$station["name"] = $row["stop_name"];
+			$station["latitude"] = $row["stop_lat"];
+			$station["longitude"] = $row["stop_lon"];
+			
+			$results[] = $station;
+		}
+		
+		return $results;
+	}
+	
+	/**
+	  * 
+	  * @param int code
+	  * @return array The Station with the given code
+	  */
+	public function getStationByCode($code) {
+		$arguments = array(":code" => intval(urldecode($code)));
+		$query = $this->GET_STATION_BY_CODE;
 		
 		$result = R::getAll($query, $arguments);
 		

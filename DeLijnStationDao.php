@@ -20,7 +20,7 @@ class StationDao {
 	/**
 	  * Query to get all stations ordered alphabetically
 	  */
-	private $GET_ALL_STATIONS_QUERY = "SELECT stop_id, stop_name, stop_lat, stop_lon 
+	private $GET_ALL_STATIONS_QUERY = "SELECT stop_id, stop_code, stop_name, stop_lat, stop_lon 
 								FROM dlgtfs_stops
 								ORDER BY stop_name ASC";
 								
@@ -28,7 +28,7 @@ class StationDao {
 	  * Query to get all stations with a certain name
 	  * @param string name
 	  */
-	private $GET_STATIONS_BY_NAME_QUERY = "SELECT stop_id, stop_name, stop_lat, stop_lon 
+	private $GET_STATIONS_BY_NAME_QUERY = "SELECT stop_id, stop_code, stop_name, stop_lat, stop_lon 
 								FROM dlgtfs_stops
 								WHERE lower(stop_name) LIKE :name
 								ORDER BY stop_name ASC";
@@ -38,7 +38,7 @@ class StationDao {
 	  * @param string latitude
 	  * @param string longitude
 	  */
-	private $GET_CLOSEST_STATIONS_QUERY = "SELECT stop_id, stop_name, stop_lat, stop_lon, 
+	private $GET_CLOSEST_STATIONS_QUERY = "SELECT stop_id, stop_code, stop_name, stop_lat, stop_lon, 
 									( 6371 * acos( cos( radians(:latitude) ) 
 												   * cos( radians( stop_lat ) ) 
 												   * cos( radians( :longitude ) 
@@ -55,7 +55,7 @@ class StationDao {
 	  * Query to get a station with a given id
 	  * @param int id
 	  */
-	private $GET_STATION_BY_ID = "SELECT stop_id, stop_name, stop_lat, stop_lon 
+	private $GET_STATION_BY_ID = "SELECT stop_id, stop_code, stop_name, stop_lat, stop_lon 
 											FROM dlgtfs_stops
 											WHERE stop_id = :id;";
 								
@@ -81,6 +81,7 @@ class StationDao {
 		foreach($result as &$row){
 			$station = array();
 			$station["id"] = $row["stop_id"];
+			$station["code"] = $row["stop_code"];
 			$station["name"] = $row["stop_name"];
 			$station["latitude"] = $row["stop_lat"];
 			$station["longitude"] = $row["stop_lon"];
@@ -111,6 +112,7 @@ class StationDao {
 		foreach($result as &$row){
 			$station = array();
 			$station["id"] = $row["stop_id"];
+			$station["code"] = $row["stop_code"];
 			$station["name"] = $row["stop_name"];
 			$station["latitude"] = $row["stop_lat"];
 			$station["longitude"] = $row["stop_lon"];
@@ -140,6 +142,7 @@ class StationDao {
 		foreach($result as &$row){
 			$station = array();
 			$station["id"] = $row["stop_id"];
+			$station["code"] = $row["stop_code"];
 			$station["name"] = $row["stop_name"];
 			$station["latitude"] = $row["stop_lat"];
 			$station["longitude"] = $row["stop_lon"];
@@ -172,6 +175,7 @@ class StationDao {
 		foreach($result as &$row){
 			$station = array();
 			$station["id"] = $row["stop_id"];
+			$station["code"] = $row["stop_code"];
 			$station["name"] = $row["stop_name"];
 			$station["latitude"] = $row["stop_lat"];
 			$station["longitude"] = $row["stop_lon"];

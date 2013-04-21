@@ -20,6 +20,7 @@ class DeLijnStations extends AReader{
 		$this->latitude = null;
 		$this->name = null;
 		$this->id = null;
+		$this->code = null;
 		$this->offset = 0;
 		$this->rowcount = 1024;
 	}
@@ -30,6 +31,7 @@ class DeLijnStations extends AReader{
 						,"name" => "Name"
 						,"id" => "Id"
 						,"offset" => "Offeset"
+						,"code" => "Haltenummber"
 						,"rowcount" => "Rowcount");
     }
 
@@ -50,6 +52,8 @@ class DeLijnStations extends AReader{
 			$this->rowcount = $val;
 		} else if ($key == "id") {
 			$this->id = $val;
+		} else if ($key == "code") {
+			$this->code = $val;
 		}
     }
 
@@ -58,6 +62,8 @@ class DeLijnStations extends AReader{
 		
 		if($this->id != null) {
 			return $stationDao->getStationById($this->id);
+		} else if($this->code != null) {
+			return $stationDao->getStationByCode($this->code);
 		} else if($this->longitude != null && $this->latitude != null) {
 			return $stationDao->getClosestStations($this->longitude, $this->latitude);
 		} else if ($this->name != null) {

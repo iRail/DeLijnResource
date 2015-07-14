@@ -1,7 +1,7 @@
 <?php
 /**
  * This is a class which will return all available Haltes from De Lijn
- * 
+ *
  * @package packages/Haltes
  * @copyright (C) 2012 by iRail vzw/asbl
  * @license AGPLv3
@@ -9,73 +9,78 @@
  */
 
 include_once('DeLijnStationDao.php');
- 
-class DeLijnStations extends AReader{
 
-	public function __construct($package, $resource, $RESTparameters) {
-		parent::__construct($package, $resource, $RESTparameters);
-		
-		// Initialize possible params
-		$this->longitude = null;
-		$this->latitude = null;
-		$this->name = null;
-		$this->id = null;
-		$this->code = null;
-		$this->offset = 0;
-		$this->rowcount = 1024;
-	}
+class DeLijnStations extends AReader
+{
 
-    public static function getParameters(){
-		return array("longitude" => "Longitude"
-						,"latitude" => "Latitude"
-						,"name" => "Name"
-						,"id" => "Id"
-						,"offset" => "Offeset"
-						,"code" => "Haltenummber"
-						,"rowcount" => "Rowcount");
+    public function __construct($package, $resource, $RESTparameters)
+    {
+        parent::__construct($package, $resource, $RESTparameters);
+
+        // Initialize possible params
+        $this->longitude = null;
+        $this->latitude = null;
+        $this->name = null;
+        $this->id = null;
+        $this->code = null;
+        $this->offset = 0;
+        $this->rowcount = 1024;
     }
 
-    public static function getRequiredParameters(){
-		return array();
+    public static function getParameters()
+    {
+        return array("longitude" => "Longitude"
+        , "latitude" => "Latitude"
+        , "name" => "Name"
+        , "id" => "Id"
+        , "offset" => "Offeset"
+        , "code" => "Haltenummber"
+        , "rowcount" => "Rowcount");
     }
 
-    public function setParameter($key,$val){
-        if ($key == "longitude"){
-			$this->longitude = $val;
-		} else if ($key == "latitude"){
-			$this->latitude = $val;
-		} else if ($key == "name"){
-			$this->name = $val;
-		} else if ($key == "offset"){
-			$this->offset = $val;
-		} else if ($key == "rowcount"){
-			$this->rowcount = $val;
-		} else if ($key == "id") {
-			$this->id = $val;
-		} else if ($key == "code") {
-			$this->code = $val;
-		}
+    public static function getRequiredParameters()
+    {
+        return array();
     }
 
-    public function read(){
-		$stationDao = new StationDao();
-		
-		if($this->id != null) {
-			return $stationDao->getStationById($this->id);
-		} else if($this->code != null) {
-			return $stationDao->getStationByCode($this->code);
-		} else if($this->longitude != null && $this->latitude != null) {
-			return $stationDao->getClosestStations($this->longitude, $this->latitude);
-		} else if ($this->name != null) {
-			return $stationDao->getStationsByName($this->name, $this->offset, $this->rowcount);
-		}
-	
-		return $stationDao->getAllStations($this->offset, $this->rowcount);
+    public function setParameter($key, $val)
+    {
+        if ($key == "longitude") {
+            $this->longitude = $val;
+        } elseif ($key == "latitude") {
+            $this->latitude = $val;
+        } elseif ($key == "name") {
+            $this->name = $val;
+        } elseif ($key == "offset") {
+            $this->offset = $val;
+        } elseif ($key == "rowcount") {
+            $this->rowcount = $val;
+        } elseif ($key == "id") {
+            $this->id = $val;
+        } elseif ($key == "code") {
+            $this->code = $val;
+        }
     }
 
-    public static function getDoc(){
-		return "This resource contains haltes from De Lijn.";
+    public function read()
+    {
+        $stationDao = new StationDao();
+
+        if ($this->id != null) {
+            return $stationDao->getStationById($this->id);
+        } elseif ($this->code != null) {
+            return $stationDao->getStationByCode($this->code);
+        } elseif ($this->longitude != null && $this->latitude != null) {
+            return $stationDao->getClosestStations($this->longitude, $this->latitude);
+        } elseif ($this->name != null) {
+            return $stationDao->getStationsByName($this->name, $this->offset, $this->rowcount);
+        }
+
+        return $stationDao->getAllStations($this->offset, $this->rowcount);
+    }
+
+    public static function getDoc()
+    {
+        return "This resource contains haltes from De Lijn.";
     }
 }
-
-?>

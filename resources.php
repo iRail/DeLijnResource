@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (C) 2012 by iRail vzw/asbl
  *
  * Author: Maarten Cautreels <maarten at flatturtle.com>
@@ -6,10 +7,11 @@
  *
  */
 
-class DeLijn{
-     public static $resources = array (
-	  "Stations", "Departures", "Arrivals"
-	  );
+class DeLijn
+{
+    public static $resources = array(
+        "Stations", "Departures", "Arrivals"
+    );
 }
 
 ?>

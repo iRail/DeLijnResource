@@ -13,6 +13,12 @@ include_once('DeLijnStationDao.php');
 class DeLijnStations extends AReader
 {
 
+    /**
+     * Class constructor 
+     * @param $package
+     * @param $resource
+     * @param $RESTparameters
+     */
     public function __construct($package, $resource, $RESTparameters)
     {
         parent::__construct($package, $resource, $RESTparameters);

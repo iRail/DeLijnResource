@@ -20,14 +20,15 @@ class StationDao
     }
 
     /**
-     * Query to get all stations ordered alphabetically
+     * Query to get all stations ordered alphabetically.
      */
     private $GET_ALL_STATIONS_QUERY = "SELECT stop_id, stop_code, stop_name, stop_lat, stop_lon
 								FROM dlgtfs_stops
 								ORDER BY stop_name ASC";
 
     /**
-     * Query to get all stations with a certain name
+     * Query to get all stations with a certain name.
+     *
      * @param string name
      */
     private $GET_STATIONS_BY_NAME_QUERY = "SELECT stop_id, stop_code, stop_name, stop_lat, stop_lon
@@ -36,7 +37,8 @@ class StationDao
 								ORDER BY stop_name ASC";
 
     /**
-     * Query to get all closest station to a given point (lat/long) ordered by distance
+     * Query to get all closest station to a given point (lat/long) ordered by distance.
+     *
      * @param string latitude
      * @param string longitude
      */
@@ -63,6 +65,7 @@ class StationDao
 
     /**
      * Query to get a station with a given station code
+     *
      * @param int code
      */
     private $GET_STATION_BY_CODE = "SELECT stop_id, stop_code, stop_name, stop_lat, stop_lon
@@ -71,6 +74,7 @@ class StationDao
 
     /**
      * Extra query to get all closest station to a given point (lat/long)
+     *
      * @param int offset
      * @param int rowcount
      */
@@ -79,6 +83,7 @@ class StationDao
     /**
      *
      * @param int id
+     *
      * @return array The Station with the given id
      */
     public function getStationById($id)
@@ -106,6 +111,7 @@ class StationDao
     /**
      *
      * @param int code
+     *
      * @return array The Station with the given code
      */
     public function getStationByCode($code)
@@ -131,9 +137,9 @@ class StationDao
     }
 
     /**
-     *
-     * @param int $offset Number of the first row to return (Optional)
+     * @param int $offset   Number of the first row to return (Optional)
      * @param int $rowcount Number of rows to return (Optional)
+     *
      * @return array A List of all Stations
      */
     public function getAllStations($offset = 0, $rowcount = 1024)
@@ -164,9 +170,10 @@ class StationDao
 
     /**
      *
-     * @param string $name Name or part of the name of a station
-     * @param int $offset Number of the first row to return (Optional)
-     * @param int $rowcount Number of rows to return (Optional)
+     * @param string $name    Name or part of the name of a station
+     * @param int    $offset  Number of the first row to return (Optional)
+     * @param int   $rowcount Number of rows to return (Optional)
+     *
      * @return array A List of Stations with given name
      */
     public function getStationsByName($name, $offset = 0, $rowcount = 1024)
@@ -196,9 +203,10 @@ class StationDao
     /**
      *
      * @param string $longitude The longitude (Required)
-     * @param string $latitude The latitude (Required)
-     * @param int $offset Number of the first row to return (Optional)
-     * @param int $rowcount Number of rows to return (Optional)
+     * @param string $latitude  The latitude (Required)
+     * @param int    $offset    Number of the first row to return (Optional)
+     * @param int    $rowcount  Number of rows to return (Optional)
+     *
      * @return array A List of the closest stations to a given location
      */
     public function getClosestStations($longitude, $latitude, $offset = null, $rowcount = null)
@@ -212,9 +220,9 @@ class StationDao
 
         $result = R::getAll($query, $arguments);
 
-        $results = array();
+        $results = [];
         foreach ($result as &$row) {
-            $station = array();
+            $station = [];
             $station["id"] = $row["stop_id"];
             $station["code"] = $row["stop_code"];
             $station["name"] = $row["stop_name"];

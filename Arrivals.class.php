@@ -23,19 +23,21 @@ class DeLijnArrivals extends AReader
 
     public static function getParameters()
     {
-        return array("stationidentifier" => "Station Name or ID that can be found in the Stations resource",
-            "year" => "Year",
-            "month" => "Month",
-            "day" => "Day"
-        , "hour" => "Hour"
-        , "minute" => "Minute"
-        , "offset" => "Offset"
-        , "rowcount" => "Rowcount");
+        return [
+            "stationidentifier" => "Station Name or ID that can be found in the Stations resource",
+            "year"              => "Year",
+            "month"             => "Month",
+            "day"               => "Day",
+            "hour"              => "Hour",
+            "minute"            => "Minute",
+            "offset"            => "Offset",
+            "rowcount"          => "Rowcount"
+        ];
     }
 
     public static function getRequiredParameters()
     {
-        return array("stationidentifier", "year", "month", "day", "hour", "minute");
+        return ["stationidentifier", "year", "month", "day", "hour", "minute"];
     }
 
     public function setParameter($key, $val)
@@ -64,9 +66,25 @@ class DeLijnArrivals extends AReader
         $stopTimesDao = new StopTimesDao();
 
         if (is_numeric($this->stationidentifier)) {
-            return $stopTimesDao->getArrivalsByID($this->stationidentifier, $this->year, $this->month, $this->day, $this->hour, $this->minute, $this->offset, $this->rowcount);
+            return $stopTimesDao->getArrivalsByID(
+                $this->stationidentifier,
+                $this->year, $this->month,
+                $this->day, $this->hour,
+                $this->minute,
+                $this->offset,
+                $this->rowcount
+            );
         } else {
-            return $stopTimesDao->getArrivalsByName($this->stationidentifier, $this->year, $this->month, $this->day, $this->hour, $this->minute, $this->offset, $this->rowcount);
+            return $stopTimesDao->getArrivalsByName(
+                $this->stationidentifier,
+                $this->year,
+                $this->month,
+                $this->day,
+                $this->hour,
+                $this->minute,
+                $this->offset,
+                $this->rowcount
+            );
         }
     }
 

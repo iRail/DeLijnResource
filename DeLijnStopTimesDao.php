@@ -103,11 +103,12 @@ class StopTimesDao
     /**
      *
      * @param int $stationName The Name of a station (Required)
-     * @param int $year The Year (Required)
-     * @param int $month The Month (Required)
-     * @param int $day The Day (Required)
-     * @param int $hour The Hour (Required)
-     * @param int $minute The Minute (Required)
+     * @param int $year        The Year (Required)
+     * @param int $month       The Month (Required)
+     * @param int $day         The Day (Required)
+     * @param int $hour        The Hour (Required)
+     * @param int $minute      The Minute (Required)
+     *
      * @return array A List of Departures for a given station, date and starting from a given time
      */
     public function getDeparturesByName($stationName, $year, $month, $day, $hour, $minute, $offset = 0, $rowcount = 1024)
@@ -124,11 +125,12 @@ class StopTimesDao
     /**
      *
      * @param int $stationId The ID of a station (Required)
-     * @param int $year The Year (Required)
-     * @param int $month The Month (Required)
-     * @param int $day The Day (Required)
-     * @param int $hour The Hour (Required)
-     * @param int $minute The Minute (Required)
+     * @param int $year      The Year (Required)
+     * @param int $month     The Month (Required)
+     * @param int $day       The Day (Required)
+     * @param int $hour      The Hour (Required)
+     * @param int $minute    The Minute (Required)
+     *
      * @return array A List of Departures for a given station, date and starting from a given time
      */
     public function getDeparturesByID($stationId, $year, $month, $day, $hour, $minute, $offset = 0, $rowcount = 1024)
@@ -145,11 +147,12 @@ class StopTimesDao
     /**
      *
      * @param int $stationName The Name of a station (Required)
-     * @param int $year The Year (Required)
-     * @param int $month The Month (Required)
-     * @param int $day The Day (Required)
-     * @param int $hour The Hour (Required)
-     * @param int $minute The Minute (Required)
+     * @param int $year        The Year (Required)
+     * @param int $month       The Month (Required)
+     * @param int $day         The Day (Required)
+     * @param int $hour        The Hour (Required)
+     * @param int $minute      The Minute (Required)
+     *
      * @return array A List of Arrivals for a given station, date and starting from a given time
      */
     public function getArrivalsByName($stationName, $year, $month, $day, $hour, $minute, $offset = 0, $rowcount = 1024)
@@ -166,11 +169,12 @@ class StopTimesDao
     /**
      *
      * @param int $stationId The ID of a station (Required)
-     * @param int $year The Year (Required)
-     * @param int $month The Month (Required)
-     * @param int $day The Day (Required)
-     * @param int $hour The Hour (Required)
-     * @param int $minute The Minute (Required)
+     * @param int $year      The Year (Required)
+     * @param int $month     The Month (Required)
+     * @param int $day       The Day (Required)
+     * @param int $hour      The Hour (Required)
+     * @param int $minute    The Minute (Required)
+     *
      * @return array A List of Arrivals for a given station, date and starting from a given time
      */
     public function getArrivalsById($stationId, $year, $month, $day, $hour, $minute, $offset = 0, $rowcount = 1024)
@@ -194,9 +198,9 @@ class StopTimesDao
      */
     private function parseStopTimes($result, $year, $month, $day)
     {
-        $stoptimes = array();
+        $stoptimes = [];
         foreach ($result as &$row) {
-            $stoptime = array();
+            $stoptime = [];
 
             $stoptime["short_name"] = $row["route_short_name"];
             $stoptime["type"] = $row["route_type"];

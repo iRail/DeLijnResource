@@ -35,18 +35,20 @@ class DeLijnStations extends AReader
 
     public static function getParameters()
     {
-        return array("longitude" => "Longitude"
-        , "latitude" => "Latitude"
-        , "name" => "Name"
-        , "id" => "Id"
-        , "offset" => "Offeset"
-        , "code" => "Haltenummber"
-        , "rowcount" => "Rowcount");
+        return [
+            "longitude" => "Longitude",
+            "latitude"  => "Latitude",
+            "name"      => "Name",
+            "id"        => "Id",
+            "offset"    => "Offeset",
+            "code"      => "Haltenummber",
+            "rowcount"  => "Rowcount"
+        ];
     }
 
     public static function getRequiredParameters()
     {
-        return array();
+        return [];
     }
 
     public function setParameter($key, $val)

@@ -27,6 +27,11 @@ class Tools
         Tools::$r0 = Tools::$a * Tools::$g * pow(Tools::$t0, Tools::$n);
     }
 
+    /**
+     * @param $x
+     * @param $y
+     * @return array
+     */
     public static function LambertToWGS84($x, $y)
     {
         Tools::initvars();
@@ -46,6 +51,11 @@ class Tools
         return array(rad2deg($phi), rad2deg($lambda));
     }
 
+    /**
+     * @param $phi
+     * @param $lambda
+     * @return array
+     */
     public static function WGS84ToLambert($phi, $lambda)
     {
         Tools::initvars();

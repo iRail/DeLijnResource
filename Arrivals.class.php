@@ -42,19 +42,19 @@ class DeLijnArrivals extends AReader
     {
         if ($key == "stationidentifier") {
             $this->stationidentifier = $val;
-        } else if ($key == "year") {
+        } elseif ($key == "year") {
             $this->year = $val;
-        } else if ($key == "month") {
+        } elseif ($key == "month") {
             $this->month = $val;
-        } else if ($key == "day") {
+        } elseif ($key == "day") {
             $this->day = $val;
-        } else if ($key == "hour") {
+        } elseif ($key == "hour") {
             $this->hour = $val;
-        } else if ($key == "minute") {
+        } elseif ($key == "minute") {
             $this->minute = $val;
-        } else if ($key == "offset") {
+        } elseif ($key == "offset") {
             $this->offset = $val;
-        } else if ($key == "rowcount") {
+        } elseif ($key == "rowcount") {
             $this->rowcount = $val;
         }
     }

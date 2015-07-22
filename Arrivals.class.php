@@ -75,5 +75,3 @@ class DeLijnArrivals extends AReader
         return "This resource contains the Arrivals for a certain Station for a certain date and time from De Lijn.";
     }
 }
-
-?>

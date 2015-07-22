@@ -14,7 +14,7 @@ class DeLijnStations extends AReader
 {
 
     /**
-     * Class constructor 
+     * Class constructor
      * @param $package
      * @param $resource
      * @param $RESTparameters

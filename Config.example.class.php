@@ -13,5 +13,3 @@ class DeLijnConfig
     public static $DB_USER = 'username';
     public static $DB_PASSWORD = 'password';
 }
-
-?>

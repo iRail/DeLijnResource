@@ -195,7 +195,7 @@ class StationDao
 
     /**
      *
-     * @param string $municipal The longitude (Required)
+     * @param string $longitude The longitude (Required)
      * @param string $latitude The latitude (Required)
      * @param int $offset Number of the first row to return (Optional)
      * @param int $rowcount Number of rows to return (Optional)

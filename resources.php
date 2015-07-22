@@ -13,5 +13,3 @@ class DeLijn
         "Stations", "Departures", "Arrivals"
     );
 }
-
-?>
